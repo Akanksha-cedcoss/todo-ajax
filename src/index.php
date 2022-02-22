@@ -17,7 +17,7 @@ session_start();
         <p>
             <input id="new-task" type="text" name="input">
             <button id="add">Add</button>
-            <button id='update'>Update</button>
+            <button hidden id='update'>Update</button>
             <input id="edit-task" type="hidden" value="">
         </p>
         <h3>Todo</h3>

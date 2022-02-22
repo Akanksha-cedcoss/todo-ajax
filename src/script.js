@@ -27,7 +27,7 @@ $(document).ready(function () {
   });
 
   $.fn.displayTasks = function (response) {
-    var size = Object.keys(response).length;
+    //var size = Object.keys(response).length;
     let incomplete = "";
     let complete = "";
     for (const key in response) {
@@ -85,6 +85,8 @@ $(document).ready(function () {
       success: function (response) {
         $("#new-task").val(response["name"]);
         $("#edit-task").val(response["id"]);
+        $("#add").toggle();
+        $("#update").toggle();
       },
     });
   });
@@ -100,6 +102,8 @@ $(document).ready(function () {
         $.fn.displayTasks(response);
         $("#new-task").val("");
         $("#edit-task").val("");
+        $("#add").toggle();
+        $("#update").toggle();
       },
     });
   });
