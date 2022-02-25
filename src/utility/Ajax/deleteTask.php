@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+/**
+ * delete a task
+ */
 if ($_REQUEST['action']=='deletetask') {
     $id=$_REQUEST['data'];
     foreach($_SESSION['cart'] as $key=>$val){

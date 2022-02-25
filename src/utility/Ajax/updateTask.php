@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+/**
+ * update task name
+ */
 if ($_REQUEST['action'] == 'updatetask') {
     $id = $_REQUEST['data'];
     $name = $_REQUEST['name'];

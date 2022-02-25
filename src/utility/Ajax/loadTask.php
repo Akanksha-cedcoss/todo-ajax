@@ -1,5 +1,11 @@
 <?php 
 session_start();
+
+/**
+ * load Incomplete Tasks
+ *
+ * @return void
+ */
 function loadIncompleteTasks(){
     $html = "";
     foreach($_SESSION['cart'] as $key=>$val){

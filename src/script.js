@@ -1,7 +1,10 @@
 $(document).ready(function () {
+  /**
+   * request for previously added tasks
+   */
   $.ajax({
     type: "POST",
-    url: "Ajax/onLoad.php",
+    url: "utility/Ajax/onLoad.php",
     data: { action: "showprevious" },
     dataType: "JSON",
     success: function (response) {
@@ -9,10 +12,13 @@ $(document).ready(function () {
     },
   });
 
+  /**
+   * Add new task
+   */
   $(document).on("click", "#add", function (e) {
     e.preventDefault();
     $.ajax({
-      url: "Ajax/addTask.php",
+      url: "utility/Ajax/addTask.php",
       method: "POST",
       data: {
         data: $("#new-task").val(),
@@ -26,47 +32,58 @@ $(document).ready(function () {
     });
   });
 
+  /**
+   * display tasks as completed or imcomplete
+   * @param {*} response 
+   */
   $.fn.displayTasks = function (response) {
-    //var size = Object.keys(response).length;
     let incomplete = "";
     let complete = "";
-    for (const key in response) {
-      let current = response[key];
-      if (current.status == "pending") {
+
+    function myfunc(task)
+    {
+      if (task.status == "pending") {
         incomplete +=
           "<li>" +
           '<input id="check" type="checkbox" value=' +
-          current.id +
+          task.id +
           ">" +
           "<label>" +
-          current.name +
+          task.name +
           "</label>" +
           '<input type="text"><button id="edit" class="edit" value=' +
-          current.id +
+          task.id +
           '>Edit</button><button class="delete" id="delete" value=' +
-          current.id +
+          task.id +
           ">Delete</button></li>";
-      } else {
+      }
+      else
+      {
         complete +=
           '<li><input type="checkbox" id="check" value=' +
-          current.id +
+          task.id +
           "><label>" +
-          current.name +
+          task.name +
           '</label><input type="text"><button class="edit" id="edit" value=' +
-          current.id +
+          task.id +
           '>Edit</button><button class="delete" id="delete" value=' +
-          current.id +
+          task.id +
           ">Delete</button></li>";
       }
     }
+    response.forEach(myfunc);
     $("#incomplete-tasks").html(incomplete);
     $("#completed-tasks").html(complete);
   };
+
+  /**
+   * delete task
+   */
   $(document).on("click", "#delete", function () {
     var id = $(this).val();
     $.ajax({
       type: "POST",
-      url: "Ajax/deleteTask.php",
+      url: "utility/Ajax/deleteTask.php",
       data: { data: id, action: "deletetask" },
       dataType: "JSON",
       success: function (response) {
@@ -74,12 +91,15 @@ $(document).ready(function () {
       },
     });
   });
+
+  /**
+   * edit task name
+   */
   $(document).on("click", "#edit", function () {
     var id = $(this).val();
-    console.log(id);
     $.ajax({
       type: "POST",
-      url: "Ajax/editTask.php",
+      url: "utility/Ajax/editTask.php",
       data: { data: id, action: "edittask" },
       dataType: "JSON",
       success: function (response) {
@@ -90,12 +110,17 @@ $(document).ready(function () {
       },
     });
   });
+
+  /**
+   * update task name
+   */
   $(document).on("click", "#update", function () {
     let id = $("#edit-task").val();
+
     let newName = $("#new-task").val();
     $.ajax({
       type: "POST",
-      url: "Ajax/updateTask.php",
+      url: "utility/Ajax/updateTask.php",
       data: { data: id, name: newName, action: "updatetask" },
       dataType: "JSON",
       success: function (response) {
@@ -107,11 +132,15 @@ $(document).ready(function () {
       },
     });
   });
+
+  /**
+   * change task status
+   */
   $(document).on("change", "#check", function () {
-    let id = $("#check").val();
+    let id = $(this).val();
     $.ajax({
       type: "POST",
-      url: "Ajax/updateStatus.php",
+      url: "utility/Ajax/updateStatus.php",
       data: { data: id, action: "updatestatus" },
       dataType: "JSON",
       success: function (response) {
